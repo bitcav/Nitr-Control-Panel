@@ -1,0 +1,115 @@
+﻿<Window x:Class="NitrControlPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{x:Null}"
+        FontFamily="{DynamicResource MaterialDesignFont}" WindowStyle="None"
+        MouseLeftButtonDown="DragMainWindow"
+        AllowsTransparency="True"
+>
+    <materialDesign:Card
+        Background="#1e1e1e"
+        Margin="5,5,5,5">
+        <Grid>
+            <Grid Grid.Row="0" Background="#1e1e1e">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <materialDesign:ColorZone
+                Grid.Row="1"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                Panel.ZIndex="1"
+                Background="#1e1e1e"
+                ></materialDesign:ColorZone>
+                <Grid Grid.Row="0" Background="#323232">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image 
+                        Grid.Column="0"
+                        Source="/logo-nitr-improved.png"
+                        HorizontalAlignment="Left"
+                        Margin="15,15,0,15"
+                    />
+                    <TextBlock
+                        Grid.Column="1"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Foreground="White"
+                        Text="Control Panel" 
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center" Margin="10,15,0,15"
+                     />
+                    <Button
+                        x:Name="StartBtn"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        ToolTip="On/Off Service"
+                        Margin="0 0 16 -28"
+                        BorderBrush="#27AE60"
+                        Background="#27AE60"   
+                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                        
+                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                        materialDesign:ButtonProgressAssist.Value="-1"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                        Click="Button_Click"
+                        >
+                        <materialDesign:PackIcon
+                            x:Name="StartBtnIcon"
+                            Kind="Power"
+                            Width="24"
+                            Height="24"
+                        />
+                    </Button>
+
+                    
+
+
+                </Grid>
+
+            </Grid>
+            <materialDesign:ColorZone
+                Grid.Row="1"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                Panel.ZIndex="1"
+                Background="#323232"
+                >
+            <StackPanel
+              HorizontalAlignment="Right"
+              Grid.Row="0"
+              Orientation="Horizontal"
+
+              Margin="8">
+                <materialDesign:PopupBox
+                    Padding="2 0 2 0">
+                    <StackPanel>
+                        <Button
+                            Content="More" />
+                        <Button
+                            Content="Options" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </StackPanel>
+            </materialDesign:ColorZone>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="8*" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+        </Grid>
+    </materialDesign:Card>
+</Window>
