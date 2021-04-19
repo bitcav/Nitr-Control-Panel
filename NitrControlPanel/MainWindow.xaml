@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="422" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -19,91 +19,210 @@
         Background="#1e1e1e"
         Margin="5,5,5,5">
         <Grid>
-            <Grid Grid.Row="0" Background="#1e1e1e">
+            <Grid Grid.Row="0" Background="#222222">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="9*"/>
                 </Grid.RowDefinitions>
-                <materialDesign:ColorZone
-                Grid.Row="1"
-                materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                Panel.ZIndex="1"
-                Background="#1e1e1e"
-                ></materialDesign:ColorZone>
-                <Grid Grid.Row="0" Background="#323232">
+                <!--<materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth2"/>-->
+
+                <Grid Background="#212121">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Image 
-                        Grid.Column="0"
-                        Source="/logo-nitr-improved.png"
-                        HorizontalAlignment="Left"
-                        Margin="15,15,0,15"
-                    />
-                    <TextBlock
-                        Grid.Column="1"
-                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                        Foreground="White"
-                        Text="Control Panel" 
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center" Margin="10,15,0,15"
-                     />
+
+                    <Button 
+                        Width="45" 
+                        HorizontalAlignment="Right" 
+                        Height="Auto" 
+                        Foreground="White" 
+                            materialDesign:ButtonAssist.CornerRadius="0 0 0 0"
+                          Style="{StaticResource MaterialDesignFlatButton}"
+                        >
+                        <materialDesign:PackIcon
+                            Opacity="0.5"
+                            Foreground="Gray"
+                            Kind="Close"
+                            Width="18"
+                            Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        />
+                    </Button>
+               
+                    
+                    <!-- Start Button -->
                     <Button
                         x:Name="StartBtn"
-                        Grid.Column="1"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        ToolTip="On/Off Service"
-                        Margin="0 0 16 -28"
-                        BorderBrush="#27AE60"
-                        Background="#27AE60"   
-                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-                        
+                        ToolTip="Start/Stop Service"
+                        Margin="0 0 24 -48"
+                        BorderBrush="#2ECC71"
+                        Background="#2ECC71"   
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                         materialDesign:ButtonProgressAssist.Value="-1"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                        Click="Button_Click"
+                        Click="Button_Click" Panel.ZIndex="5"
                         >
                         <materialDesign:PackIcon
                             x:Name="StartBtnIcon"
-                            Kind="Power"
+                            Kind="Play"
                             Width="24"
-                            Height="24"
+                            Height="24" 
                         />
                     </Button>
-
-                    
-
-
+                    <!-- Start Button -->
                 </Grid>
 
+                <!-- Body -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.2*"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <!--<materialDesign:PackIcon Kind="Server" Foreground="White" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="15,0,0,0"
+                        />-->
+                        <Image 
+                        RenderOptions.BitmapScalingMode="NearestNeighbor"
+                        Grid.Column="0"
+                        Source="/image.png"
+                        VerticalAlignment="Top" Margin="24,14,0,14"
+                        HorizontalAlignment="Left"
+                        />
+
+                        <!-- Subtitle -->
+                        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
+                            Width="102"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Foreground="White" Margin="70,0,0,0">
+                           Control Panel
+                        </TextBlock>
+                        <!-- Subtitle -->
+
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!-- Server GroupBox -->
+                        <GroupBox
+                            Grid.Row="0"
+                            Height="110"
+                            Style="{DynamicResource MaterialDesignGroupBox}"
+                            Header="Server"
+                            Background="#212121"
+                            Margin="16,0,16,27"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            materialDesign:ColorZoneAssist.Mode="Custom"
+                            materialDesign:ColorZoneAssist.Background="#323133"
+                            materialDesign:ColorZoneAssist.Foreground="White"
+                            BorderThickness="1"
+                            >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+
+                                </Grid.ColumnDefinitions>
+                                <Label Margin="6,0,40,0" VerticalAlignment="Center">Port</Label>
+                                <TextBox
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     HorizontalAlignment="Left"
+                                     Width="96"
+                                    materialDesign:HintAssist.Hint="Port"
+                                    />
+                                <Label Grid.Row="1" Margin="6,5,10,0">PID</Label>
+                                <!--<Label Grid.Row="1" Grid.Column="1" Margin="0,6,0,7">- - - - -</Label>-->
+                                <Label Grid.Row="1" Margin="106,6,14,0" Grid.ColumnSpan="2">165789</Label>
+
+                            </Grid>
+                        </GroupBox>
+                        <!-- Server GroupBox -->
+
+                        <!-- Options GroupBox -->
+
+                        <GroupBox
+                            Height="150"
+                            Style="{DynamicResource MaterialDesignGroupBox}"
+                            Header="Options"
+                            Background="#212121"
+                            Margin="16,128,16,15"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            materialDesign:ColorZoneAssist.Mode="Custom"
+                            materialDesign:ColorZoneAssist.Background="#323133"
+                            materialDesign:ColorZoneAssist.Foreground="White"
+                            BorderThickness="1" Grid.RowSpan="2">
+                            <ListBox Margin="0,0,0,-7" Width="219">
+                                <CheckBox
+                                Content="Open web browser on start up" Width="230" />
+                                <CheckBox
+                                Content="Save logs" Width="230" />
+                                <CheckBox
+                                    Foreground="#3498DB"
+                                Content="Install as Service" >
+                                    <CheckBox.Resources>
+                                        <!--Unchecked state-->
+                                        <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#3498DB"/>
+                                        <!--Checked state-->
+                                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#3498DB"/>
+                                    </CheckBox.Resources>
+                                </CheckBox>
+                            </ListBox>
+                        </GroupBox>
+                        <!-- Options GroupBox -->
+                    </Grid>
+                </Grid>
+                <!-- Body -->
             </Grid>
+            <Grid Grid.Row="1" Panel.ZIndex="1">
+                <materialDesign:PackIcon
+                            x:Name="StatusIcon"
+                            Kind="Information"
+                            Width="18"
+                            Height="22" 
+                        Foreground="#E74C3C" VerticalAlignment="Center" Margin="16,0,0,0"
+                        />
+                <Label x:Name="StatusLabel"  Foreground="#E74C3C" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="35,0,0,0" FontSize="12" Height="22">Stopped</Label>
+
+            </Grid>
+
             <materialDesign:ColorZone
                 Grid.Row="1"
                 materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                Panel.ZIndex="1"
-                Background="#323232"
+                Background="#111111"
                 >
-            <StackPanel
-              HorizontalAlignment="Right"
-              Grid.Row="0"
-              Orientation="Horizontal"
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="8">
 
-              Margin="8">
-                <materialDesign:PopupBox
-                    Padding="2 0 2 0">
-                    <StackPanel>
-                        <Button
-                            Content="More" />
-                        <Button
-                            Content="Options" />
-                    </StackPanel>
-                </materialDesign:PopupBox>
-            </StackPanel>
+                    <materialDesign:PopupBox
+                        Padding="2 0 2 0">
+                        <StackPanel>
+                            <Button
+                                Content="More" />
+                            <Button
+                                Content="Options" />
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </StackPanel>
             </materialDesign:ColorZone>
-            
             <Grid.RowDefinitions>
                 <RowDefinition
                     Height="8*" />

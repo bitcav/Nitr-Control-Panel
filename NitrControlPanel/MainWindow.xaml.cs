@@ -49,9 +49,12 @@ namespace NitrControlPanel
             var redBackround = (Brush)bc.ConvertFrom("#E74C3C");
             StartBtn.Background = redBackround;
             StartBtn.BorderBrush = redBackround;
-            //PackIcon packIcon = new PackIcon();
-            //packIcon.Kind = PackIconKind.Stop;
-            //StartBtn.Content = packIcon;
+            PackIcon packIcon = new PackIcon();
+            packIcon.Kind = PackIconKind.Stop;
+            StartBtn.Content = packIcon;
+            StatusLabel.Content = "Running";
+            StatusLabel.Foreground = (Brush)bc.ConvertFrom("#2ECC71");
+            StatusIcon.Foreground = (Brush)bc.ConvertFrom("#2ECC71");
         }
     }
 }

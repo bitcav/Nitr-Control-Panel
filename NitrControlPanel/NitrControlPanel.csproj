@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="image.png" />
     <None Remove="logo-nitr-improved.png" />
+    <None Remove="nitr-mini-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="image.png" />
     <Resource Include="logo-nitr-improved.png" />
+    <Resource Include="nitr-mini-logo.png" />
   </ItemGroup>
 
 </Project>
