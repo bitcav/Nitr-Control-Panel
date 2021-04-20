@@ -6,7 +6,7 @@
         <GuideModel>
           <Guides>
             <Guide Alignment="Left" Position="21" />
-            <Guide Alignment="Left" Position="31" />
+            <Guide Alignment="Left" Position="35" />
             <Guide Alignment="Left" Position="40" />
             <Guide Alignment="Top" Position="296" />
             <Guide Alignment="Top" Position="272" />
@@ -15,11 +15,13 @@
             <Guide Alignment="Top" Position="307" />
             <Guide Alignment="Top" Position="332" />
             <Guide Alignment="Top" Position="170" />
-            <Guide Alignment="Left" Position="151" />
+            <Guide Alignment="Left" Position="131" />
             <Guide Alignment="Left" Position="279" />
             <Guide Alignment="Top" Position="48" />
             <Guide Alignment="Top" Position="25" />
             <Guide Alignment="Top" Position="60" />
+            <Guide Alignment="Left" Position="246" />
+            <Guide Alignment="Top" Position="200" />
           </Guides>
         </GuideModel>
       </GuideModels>

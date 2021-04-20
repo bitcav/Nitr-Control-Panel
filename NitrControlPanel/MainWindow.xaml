@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="422" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="438" Width="260" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -21,17 +21,18 @@
         <Grid>
             <Grid Grid.Row="0" Background="#222222">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="0.7*"/>
                     <RowDefinition Height="9*"/>
                 </Grid.RowDefinitions>
-                <!--<materialDesign:Card
-                        materialDesign:ShadowAssist.ShadowDepth="Depth2"/>-->
+                <materialDesign:Card
+                        materialDesign:ShadowAssist.ShadowDepth="Depth1"/>
 
                 <Grid Background="#212121">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Close Button -->
                     <Button 
                         Width="45" 
                         HorizontalAlignment="Right" 
@@ -48,62 +49,60 @@
                             Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
                         />
                     </Button>
-               
-                    
-                    <!-- Start Button -->
-                    <Button
-                        x:Name="StartBtn"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        ToolTip="Start/Stop Service"
-                        Margin="0 0 24 -48"
-                        BorderBrush="#2ECC71"
-                        Background="#2ECC71"   
-                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
-                        materialDesign:ButtonProgressAssist.Value="-1"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                        Click="Button_Click" Panel.ZIndex="5"
-                        >
-                        <materialDesign:PackIcon
-                            x:Name="StartBtnIcon"
-                            Kind="Play"
-                            Width="24"
-                            Height="24" 
-                        />
-                    </Button>
-                    <!-- Start Button -->
+                    <!-- Close Button -->
                 </Grid>
 
                 <!-- Body -->
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.2*"/>
+                        <RowDefinition Height="1.5*"/>
                         <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
                     <Grid>
-                        <!--<materialDesign:PackIcon Kind="Server" Foreground="White" 
-                            HorizontalAlignment="Left" 
-                            VerticalAlignment="Center" 
-                            Margin="15,0,0,0"
-                        />-->
+                        <!-- Logo -->
                         <Image 
-                        RenderOptions.BitmapScalingMode="NearestNeighbor"
                         Grid.Column="0"
                         Source="/image.png"
-                        VerticalAlignment="Top" Margin="24,14,0,14"
+                        VerticalAlignment="Top" Margin="18,18,0,18"
                         HorizontalAlignment="Left"
                         />
+                        <!-- Logo -->
 
-                        <!-- Subtitle -->
+                        <!-- Title -->
                         <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
                             Width="102"
-                            HorizontalAlignment="Left" 
+                            HorizontalAlignment="Center" 
                             VerticalAlignment="Center" 
-                            Foreground="White" Margin="70,0,0,0">
+                            Foreground="White" 
+                         >
                            Control Panel
                         </TextBlock>
-                        <!-- Subtitle -->
+                        <!-- Title -->
+
+                        <!-- Start Button -->
+                        <Button
+                            x:Name="StartBtn"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            ToolTip="Start/Stop Service"
+                            BorderBrush="#2ECC71"
+                            Background="#2ECC71"   
+                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
+                            materialDesign:ButtonProgressAssist.Value="-1"
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="False"
+                            Click="Button_Click" 
+                            Panel.ZIndex="5" 
+                            Margin="0,0,18,0"
+                        >
+                            <materialDesign:PackIcon
+                                x:Name="StartBtnIcon"
+                                Kind="Play"
+                                Width="24"
+                                Height="24" 
+                            />
+                        </Button>
+                        <!-- Start Button -->
 
                     </Grid>
                     <Grid Grid.Row="1">
@@ -114,11 +113,10 @@
                         <!-- Server GroupBox -->
                         <GroupBox
                             Grid.Row="0"
-                            Height="110"
                             Style="{DynamicResource MaterialDesignGroupBox}"
                             Header="Server"
                             Background="#212121"
-                            Margin="16,0,16,27"
+                            Margin="10,3,10,35"
                             materialDesign:ShadowAssist.ShadowDepth="Depth1"
                             materialDesign:ColorZoneAssist.Mode="Custom"
                             materialDesign:ColorZoneAssist.Background="#323133"
@@ -129,13 +127,12 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
-
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-
                                 </Grid.ColumnDefinitions>
+
                                 <Label Margin="6,0,40,0" VerticalAlignment="Center">Port</Label>
                                 <TextBox
                                     Grid.Column="1"
@@ -146,22 +143,21 @@
                                      Width="96"
                                     materialDesign:HintAssist.Hint="Port"
                                     />
-                                <Label Grid.Row="1" Margin="6,5,10,0">PID</Label>
+                                <Label Grid.Row="1" Margin="6,5,10,0" ToolTip="Process ID Number">PID</Label>
                                 <!--<Label Grid.Row="1" Grid.Column="1" Margin="0,6,0,7">- - - - -</Label>-->
-                                <Label Grid.Row="1" Margin="106,6,14,0" Grid.ColumnSpan="2">165789</Label>
-
+                                <Label Grid.Row="1" Margin="102,6,18,0" Grid.ColumnSpan="2">165789</Label>
                             </Grid>
                         </GroupBox>
                         <!-- Server GroupBox -->
 
-                        <!-- Options GroupBox -->
 
+                        <!-- Options GroupBox -->
                         <GroupBox
                             Height="150"
                             Style="{DynamicResource MaterialDesignGroupBox}"
                             Header="Options"
                             Background="#212121"
-                            Margin="16,128,16,15"
+                            Margin="10,128,10,15"
                             materialDesign:ShadowAssist.ShadowDepth="Depth1"
                             materialDesign:ColorZoneAssist.Mode="Custom"
                             materialDesign:ColorZoneAssist.Background="#323133"
@@ -169,12 +165,10 @@
                             BorderThickness="1" Grid.RowSpan="2">
                             <ListBox Margin="0,0,0,-7" Width="219">
                                 <CheckBox
-                                Content="Open web browser on start up" Width="230" />
-                                <CheckBox
-                                Content="Save logs" Width="230" />
-                                <CheckBox
                                     Foreground="#3498DB"
-                                Content="Install as Service" >
+                                    Content="Install as Service" 
+                                    ToolTip="Installing NITR as a Windows Service requires elevated privileges"
+                                 >
                                     <CheckBox.Resources>
                                         <!--Unchecked state-->
                                         <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#3498DB"/>
@@ -182,6 +176,13 @@
                                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#3498DB"/>
                                     </CheckBox.Resources>
                                 </CheckBox>
+                                <CheckBox
+                                    Content="Open Web Panel on startup" Width="230" 
+                                    ToolTip="Opens NITR web panel when service starts"
+                                />
+                                <CheckBox
+                                Content="Save logs" Width="230" />
+                                
                             </ListBox>
                         </GroupBox>
                         <!-- Options GroupBox -->
@@ -189,21 +190,32 @@
                 </Grid>
                 <!-- Body -->
             </Grid>
+            
+            <!-- Status Bar -->
             <Grid Grid.Row="1" Panel.ZIndex="1">
                 <materialDesign:PackIcon
                             x:Name="StatusIcon"
                             Kind="Information"
                             Width="18"
                             Height="22" 
-                        Foreground="#E74C3C" VerticalAlignment="Center" Margin="16,0,0,0"
-                        />
-                <Label x:Name="StatusLabel"  Foreground="#E74C3C" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="35,0,0,0" FontSize="12" Height="22">Stopped</Label>
+                            Foreground="#E74C3C" VerticalAlignment="Center" Margin="16,0,0,0"
+                 />
+                <Label 
+                    x:Name="StatusLabel"
+                    ToolTip="Service current status"
+                    Foreground="#E74C3C" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left" 
+                    Margin="35,0,0,0" 
+                    FontSize="12" 
+                    Height="22">Stopped
+                </Label>
 
             </Grid>
 
             <materialDesign:ColorZone
                 Grid.Row="1"
-                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                materialDesign:ShadowAssist.ShadowDepth="Depth1"
                 Background="#111111"
                 >
                 <StackPanel
@@ -223,6 +235,8 @@
                     </materialDesign:PopupBox>
                 </StackPanel>
             </materialDesign:ColorZone>
+            <!-- Status Bar -->
+
             <Grid.RowDefinitions>
                 <RowDefinition
                     Height="8*" />
