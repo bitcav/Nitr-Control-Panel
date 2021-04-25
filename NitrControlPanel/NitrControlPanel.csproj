@@ -7,16 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="app.ico" />
     <None Remove="image.png" />
     <None Remove="logo-nitr-improved.png" />
     <None Remove="nitr-mini-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
+    <PackageReference Include="YamlDotNet" Version="11.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="app.ico" />
     <Resource Include="image.png" />
     <Resource Include="logo-nitr-improved.png" />
     <Resource Include="nitr-mini-logo.png" />
