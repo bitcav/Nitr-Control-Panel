@@ -35,11 +35,11 @@
                     <!-- Close Button -->
                     <Button 
                         Width="45" 
-                        HorizontalAlignment="Right" 
-                        Height="Auto" 
+                        HorizontalAlignment="Left" 
+                        Height="28" 
                         Foreground="White" 
                             materialDesign:ButtonAssist.CornerRadius="0 0 0 0"
-                          Style="{StaticResource MaterialDesignFlatButton}"
+                          Style="{StaticResource MaterialDesignFlatButton}" VerticalAlignment="Center" Margin="205,0,0,0"
                         >
                         <materialDesign:PackIcon
                             Opacity="0.5"
@@ -182,7 +182,7 @@
                                 />
                                 <CheckBox
                                 Content="Save logs" Width="230" />
-                                
+
                             </ListBox>
                         </GroupBox>
                         <!-- Options GroupBox -->
@@ -190,7 +190,7 @@
                 </Grid>
                 <!-- Body -->
             </Grid>
-            
+
             <!-- Status Bar -->
             <Grid Grid.Row="1" Panel.ZIndex="1">
                 <materialDesign:PackIcon
