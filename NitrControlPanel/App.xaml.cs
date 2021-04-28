@@ -1,17 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows;
 
 namespace NitrControlPanel
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+
+
+    public partial class App
     {
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (SingleInstance.AlreadyRunning())
+            {
+                MessageBox.Show("Another instance is running.");
+                Environment.Exit(0);            
+            }
+
+            base.OnStartup(e);
+        }
     }
 }

@@ -13,8 +13,10 @@
         Background="{x:Null}"
         FontFamily="{DynamicResource MaterialDesignFont}" 
         WindowStyle="None"
+        Topmost="True"
         MouseLeftButtonDown="DragMainWindow"
-        AllowsTransparency="True"
+        AllowsTransparency="True" ShowInTaskbar="False"
+        Loaded="Window_Loaded"
 >
     <materialDesign:Card
         Background="#1e1e1e"
@@ -37,6 +39,7 @@
 
                     <!-- Close Button -->
                     <Button 
+                        Click="HideControlPanel"
                         Width="45" 
                         HorizontalAlignment="Left" 
                         Height="28" 
@@ -49,7 +52,9 @@
                             Foreground="Gray"
                             Kind="Close"
                             Width="18"
-                            Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Height="18" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" 
                         />
                     </Button>
                     <!-- Close Button -->
@@ -63,11 +68,12 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <!-- Logo -->
-                        <Image 
-                        Grid.Column="0"
-                        Source="/image.png"
-                        VerticalAlignment="Top" Margin="18,18,0,18"
-                        HorizontalAlignment="Left"
+                        <Image
+                            x:Name="Logo"
+                            Grid.Column="0"
+                            Source="/nitr-mini-logo-grey.png"
+                            VerticalAlignment="Top" Margin="18,18,0,18"
+                            HorizontalAlignment="Left"
                         />
                         <!-- Logo -->
 
@@ -94,15 +100,15 @@
                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="False"
                             materialDesign:ButtonProgressAssist.Value="-1"
                             materialDesign:ButtonProgressAssist.IsIndeterminate="False"
-                            Click="Button_Click" 
+                            Click="StartBtn_Click" 
                             Panel.ZIndex="5" 
                             Margin="0,0,18,0"
                         >
                             <materialDesign:PackIcon
                                 x:Name="StartBtnIcon"
                                 Kind="Play"
-                                Width="24"
-                                Height="24" 
+                                Width="22"
+                                Height="22" 
                             />
                         </Button>
                         <!-- Start Button -->
@@ -136,19 +142,28 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Margin="6,0,40,0" VerticalAlignment="Center">Port</Label>
+                                <Label 
+                                    Margin="6,0,40,0" 
+                                    VerticalAlignment="Center"
+                                    ToolTip="Server Port. Allowed range: 1024 - 49151"
+
+                                    >Port</Label>
                                 <TextBox
+                                    x:Name="Port"
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                     AcceptsReturn="True"
-                                     TextWrapping="Wrap"
-                                     HorizontalAlignment="Left"
-                                     Width="96"
-                                    materialDesign:HintAssist.Hint="Port"
+                                    HorizontalAlignment="Left"
+                                    Width="96"
+                                    Text="8000"
+                                    KeyUp="SaveConfig"
+                                    LostFocus="Port_LostFocus"
+                                    PreviewTextInput="Port_PreviewTextInput"
+                                    MaxLength="5"
+                                    materialDesign:TextFieldAssist.CharacterCounterStyle="{x:Null}"
                                     />
-                                <Label Grid.Row="1" Margin="6,5,10,0" ToolTip="Process ID Number">PID</Label>
-                                <!--<Label Grid.Row="1" Grid.Column="1" Margin="0,6,0,7">- - - - -</Label>-->
-                                <Label Grid.Row="1" Margin="102,6,18,0" Grid.ColumnSpan="2">165789</Label>
+
+                                <Label Grid.Row="1" Margin="6,5,10,0" ToolTip="Process Identity Number">PID</Label>
+                                <Label x:Name="PID" Grid.Row="1" Margin="102,6,18,0" Grid.ColumnSpan="2">- - - - -</Label>
                             </Grid>
                         </GroupBox>
                         <!-- Server GroupBox -->
@@ -168,10 +183,12 @@
                             BorderThickness="1" Grid.RowSpan="2">
                             <ListBox Margin="0,0,0,-7" Width="219">
                                 <CheckBox
+                                    x:Name="ServiceCheckBox"
                                     Foreground="#3498DB"
                                     Content="Install as Service" 
-                                    ToolTip="Installing NITR as a Windows Service requires elevated privileges"
-                                 >
+                                    ToolTip="Installing as Windows Service requires elevated privileges"
+                                    ToolTipService.ShowOnDisabled="True"
+                                    >
                                     <CheckBox.Resources>
                                         <!--Unchecked state-->
                                         <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="#3498DB"/>
@@ -180,11 +197,18 @@
                                     </CheckBox.Resources>
                                 </CheckBox>
                                 <CheckBox
-                                    Content="Open Web Panel on startup" Width="230" 
+                                    x:Name="WebPanelCheckBox"
+                                    Content="Open Web Panel on startup" Width="208" 
                                     ToolTip="Opens NITR web panel when service starts"
+                                    Checked="SaveConfig"
+                                    Unchecked="SaveConfig"
                                 />
                                 <CheckBox
-                                Content="Save logs" Width="230" />
+                                    x:Name="LogsCheckBox"
+                                    Content="Save logs" Width="210"
+                                    Checked="SaveConfig"
+                                    Unchecked="SaveConfig"
+                                />
 
                             </ListBox>
                         </GroupBox>
@@ -231,34 +255,58 @@
                         Padding="2 0 2 0">
                         <StackPanel>
                             <Button
-                                Content="More" />
+                                Content="Show Logs" 
+                                Click="ShowLogs"
+                            />
+                            <Separator />
                             <Button
-                                Content="Options" />
+                                Content="About" />
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>
                 
             </materialDesign:ColorZone>
+            
+            <!--  Taskbar Options -->
             <tb:TaskbarIcon x:Name="myNotifyIcon"
                     Visibility="Visible"
                     IconSource="/app.ico"
                     MenuActivation="LeftOrRightClick"
-                    PopupActivation="DoubleClick" HorizontalAlignment="Left" Width="250"
+                    HorizontalAlignment="Left" 
+                    Width="250"
       >
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Show Control Panel" Visibility="Visible"/>
+                        <MenuItem Header="Show Control Panel" Visibility="Visible" Click="ShowControlPanel"/>
                         <Separator />
                         <MenuItem Header="Server" >
-                            <MenuItem x:Name="StartServerContextMenu"  Header="Start"/>
-                            <MenuItem x:Name="StopServerContextMenu" Header="Stop"/>
+                            <MenuItem x:Name="StartServerContextMenu"  Header="Start" Click="StartServerContextMenu_Click"/>
+                            <MenuItem x:Name="StopServerContextMenu" Header="Stop" Click="StopServerContextMenu_Click"/>
                         </MenuItem>
-                        <MenuItem Header="Web Panel" Visibility="Visible"/>
+                        <MenuItem Header="Web Panel" Visibility="Visible" Click="WebPanelShow_Click"/>
                         <Separator />
-                        <MenuItem Header="Exit"  />
+                        <MenuItem Header="Exit" Click="ExitTaskBarBtn_Click" />
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
+
+                <tb:TaskbarIcon.TrayToolTip>
+                    <Border
+                      Background="White"
+                      BorderThickness="2"
+                      Opacity="0.8"
+                      Width="170"
+                      Height="30">
+                       <TextBlock
+                        x:Name="TrayTextBlock"
+                        Text="NITR Control Panel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
+                    </Border>
+                </tb:TaskbarIcon.TrayToolTip>
+
             </tb:TaskbarIcon>
+            <!--  Taskbar Options -->
 
 
             <!-- Status Bar -->

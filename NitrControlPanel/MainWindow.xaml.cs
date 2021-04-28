@@ -1,30 +1,59 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NitrControlPanel
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+            try
+            {
+                Inputs inputs = Config.Read();
+                SetInputs(inputs);
+            } catch
+            {
+                Config.Default();
+                Inputs inputs = Config.Read();
+                SetInputs(inputs);
+            }
+
+            if(Utils.IsAdmin())
+                ServiceCheckBox.IsEnabled = true;
+            else
+                ServiceCheckBox.IsEnabled = false;
+
+
+            if (Service.IsRunning())
+            {
+                PID.Content = Service.GetProcessID();
+                DisableInputs();
+                RunningUI();
+
+            }
+            else
+            {
+                StartServerContextMenu.IsEnabled = true;
+                StopServerContextMenu.IsEnabled = false;
+                myNotifyIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/red.ico"));
+                TrayTextBlock.Text = "NITR Control Panel: Stopped";
+            }
+        }
+
+        private void SetInputs(Inputs inputs)
+        {
+            Port.Text = inputs.port;
+            LogsCheckBox.IsChecked = inputs.saveLogs;
+            WebPanelCheckBox.IsChecked = inputs.openBrowser;
         }
 
         private void DragMainWindow(object sender, MouseButtonEventArgs e)
@@ -33,28 +62,257 @@ namespace NitrControlPanel
             {
                 DragMove();
             } catch
-            {
+            {}
+        }
 
+        private async void StartBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var bc = new BrushConverter();
+            PackIcon packIcon = new PackIcon();
+
+
+            if (Service.IsRunning())
+            {
+                ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
+                ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+                Service.Stop();
+                EnableInputs();
+                await Task.Delay(1000);
+                ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
+                ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                StoppedUI();
+
+
+            }
+            else {
+                if (Port.Text == "")
+                    Port.Text = "8000";
+
+                if (!Utils.IsPortOpen(int.Parse(Port.Text)))
+                {
+                    ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
+                    ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+                    PID.Content = Service.Start();
+                    DisableInputs();
+                    await Task.Delay(1000);
+                    ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
+                    ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                    RunningUI();
+                    StartNotification();
+                }
+                else
+                {
+                    StatusLabel.Content = "Port already in use";
+                    StatusLabel.Foreground = (Brush)bc.ConvertFrom("#F1C40F");
+                    StatusIcon.Foreground = (Brush)bc.ConvertFrom("#F1C40F");
+                    Port.Focus();
+                }
             }
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void HideControlPanel(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
+        private void ShowControlPanel(object sender, RoutedEventArgs e)
+        {
+            Show();
+        }
+
+        public async void StartNotification()
+        {
+            string DisplayText = $"Server started on port {Port.Text}";
+            myNotifyIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/app.ico"));
+            myNotifyIcon.ToolTipText = DisplayText;
+            myNotifyIcon.ShowBalloonTip("NITR Control Panel", DisplayText, BalloonIcon.None);
+            TrayTextBlock.Text = "NITR Control Panel: Running";
+            await Task.Delay(7000);
+            myNotifyIcon.HideBalloonTip();
+        }
+
+        private void ExitTaskBarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+                var desktopWorkingArea = SystemParameters.WorkArea;
+                Left = desktopWorkingArea.Right - Width - 64;
+                Top = desktopWorkingArea.Bottom - Height;
+        }
+
+        private void SaveConfig(object sender, RoutedEventArgs e)
+        {
+            Inputs newInputs;
+            newInputs.port = Port.Text;
+            newInputs.saveLogs = (bool)LogsCheckBox.IsChecked;
+            newInputs.openBrowser = (bool)WebPanelCheckBox.IsChecked;
+            Config.Write(newInputs);
+        }
+
+        private void Port_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Int32.TryParse(Port.Text, out int port);
+            if (Port.Text == "")
+                 Port.Text = "8000";
+            else if (port > 49151)
+                Port.Text = "49151";
+
+            else if (port < 1024)
+                Port.Text = "1024";
+
+            Inputs newInputs;
+            newInputs.port = Port.Text;
+            newInputs.saveLogs = (bool)LogsCheckBox.IsChecked;
+            newInputs.openBrowser = (bool)WebPanelCheckBox.IsChecked;
+            Config.Write(newInputs);
+        }
+
+        private void Port_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private async void StartServerContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var bc = new BrushConverter();
+            PackIcon packIcon = new PackIcon();
+            if (Port.Text == "")
+            {
+                Port.Text = "8000";
+            }
+
+            if (!Utils.IsPortOpen(int.Parse(Port.Text)))
+            {
+                ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
+                ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+                PID.Content = Service.Start();
+                DisableInputs();
+                await Task.Delay(1000);
+                ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
+                ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                RunningUI();
+                StartNotification();
+
+            }
+            else
+            {
+                Application.Current.MainWindow.Show();
+                StatusLabel.Content = "Port already in use";
+                StatusLabel.Foreground = (Brush)bc.ConvertFrom("#F1C40F");
+                StatusIcon.Foreground = (Brush)bc.ConvertFrom("#F1C40F");
+                Port.Focus();
+            }
+        }
+
+        private async void StopServerContextMenu_Click(object sender, RoutedEventArgs e)
         {
             ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
             ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+            Service.Stop();
+            EnableInputs();
             await Task.Delay(1000);
             ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
-            ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+            ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);  
+            StoppedUI();
+        }
+
+        private void WebPanelShow_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.ShowPanel(Port.Text);
+        }
+
+        private void EnableInputs()
+        {
+            Port.IsEnabled = true;
+            if (Utils.IsAdmin())
+                ServiceCheckBox.IsEnabled = true;
+            else
+                ServiceCheckBox.IsEnabled = false;
+
+            WebPanelCheckBox.IsEnabled = true;
+            LogsCheckBox.IsEnabled = true;
+            StartServerContextMenu.IsEnabled = true;
+            StopServerContextMenu.IsEnabled = false;
+        }
+
+        private void DisableInputs()
+        {
+            Port.IsEnabled = false;
+            ServiceCheckBox.IsEnabled = false;
+            WebPanelCheckBox.IsEnabled = false;
+            LogsCheckBox.IsEnabled = false;
+            StartServerContextMenu.IsEnabled = false;
+            StopServerContextMenu.IsEnabled = true;
+        }
+
+        private void StoppedUI()
+        {
+            Logo.Source = new BitmapImage(new Uri("pack://application:,,,/nitr-mini-logo-grey.png"));
+
+            PID.Content = "- - - - -";
+            
             var bc = new BrushConverter();
-            var redBackround = (Brush)bc.ConvertFrom("#E74C3C");
-            StartBtn.Background = redBackround;
-            StartBtn.BorderBrush = redBackround;
-            PackIcon packIcon = new PackIcon();
-            packIcon.Kind = PackIconKind.Stop;
+
+            //Start Button
+            var green = (Brush)bc.ConvertFrom("#2ECC71");
+            StartBtn.Background = green;
+            StartBtn.BorderBrush = green;
+            PackIcon packIcon = new PackIcon
+            {
+                Kind = PackIconKind.Play,
+                Width = 22,
+                Height = 22
+            };
             StartBtn.Content = packIcon;
+
+            //Status Bar
+            StatusLabel.Content = "Stopped";
+            var red = (Brush)bc.ConvertFrom("#E74C3C");
+            StatusLabel.Foreground = red;
+            StatusIcon.Foreground = red;
+
+            //Notification
+            myNotifyIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/red.ico"));
+            TrayTextBlock.Text = "NITR Control Panel: Stopped";
+
+        }
+
+        private void RunningUI()
+        {
+            Logo.Source = new BitmapImage(new Uri("pack://application:,,,/nitr-mini-logo.png"));
+            
+            var bc = new BrushConverter();
+
+            //Start Button
+            var red = (Brush)bc.ConvertFrom("#E74C3C");
+            StartBtn.Background = red;
+            StartBtn.BorderBrush = red;
+            PackIcon packIcon = new PackIcon
+            {
+                Kind = PackIconKind.Stop,
+                Width = 22,
+                Height = 22
+            };
+            StartBtn.Content = packIcon;
+
+            //Status Bar
             StatusLabel.Content = "Running";
-            StatusLabel.Foreground = (Brush)bc.ConvertFrom("#2ECC71");
-            StatusIcon.Foreground = (Brush)bc.ConvertFrom("#2ECC71");
+            var green = (Brush)bc.ConvertFrom("#2ECC71");
+            StatusLabel.Foreground = green;
+            StatusIcon.Foreground = green;
+
+            //Notification
+            myNotifyIcon.IconSource = new BitmapImage(new Uri("pack://application:,,,/green.ico"));
+            TrayTextBlock.Text = "NITR Control Panel: Running";
+        }
+
+        private void ShowLogs(object sender, RoutedEventArgs e)
+        {
+            Process.Start("notepad.exe", "nitr.log");
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using YamlDotNet.RepresentationModel;
 
 namespace NitrControlPanel
@@ -12,21 +10,20 @@ namespace NitrControlPanel
         public bool openBrowser;
         public bool saveLogs;
     }
-    class Config
+
+    public class Config
     {
-        private readonly string path;
-        Inputs inputs;
+        private static readonly string rootPath = Directory.GetCurrentDirectory();
+        private static readonly string configPath = rootPath + @"\config.ini";
 
-        public Config(string configPath)
-        {
-            path = configPath;
-        }
 
-        public Inputs Read()
+        public static Inputs Read()
         {
+            Inputs inputs;
+
             try
             {
-                var reader = new StreamReader(path);
+                var reader = new StreamReader(configPath);
 
                 var yaml = new YamlStream();
 
@@ -54,9 +51,9 @@ namespace NitrControlPanel
             }
         }
 
-        public void Write(Inputs newInputs)
+        public static void Write(Inputs newInputs)
         {
-            var input = new StreamReader(path);
+            var input = new StreamReader(configPath);
 
             var yaml = new YamlStream();
             yaml.Load(input);
@@ -68,17 +65,34 @@ namespace NitrControlPanel
             config.Children["save_logs"] = newInputs.saveLogs.ToString().ToLower();
 
 
-            var output = File.CreateText(path + ".tmp");
+            var output = File.CreateText(configPath + ".tmp");
             yaml.Save(output, assignAnchors: false);
             output.Close();
 
             input.Close();
 
-            if (File.Exists(path))
+            if (File.Exists(configPath))
             {
-                File.Delete(path);
+                File.Delete(configPath);
             }
-            File.Move(path + ".tmp", path);
+            File.Move(configPath + ".tmp", configPath);
+        }
+
+        public static void Default()
+        {
+            string[] lines =
+            {
+                "port: 8000",
+                "open_browser_on_startup: true",
+                "save_logs: true"
+            };
+
+            File.WriteAllLines("config.ini", lines);
+
+            if (!(File.Exists("nitr.log")))
+            {
+                File.CreateText("nitr.log");
+            }
         }
     }
 

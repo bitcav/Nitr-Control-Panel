@@ -4,13 +4,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="app.ico" />
-    <None Remove="image.png" />
+    <None Remove="green.ico" />
+    <None Remove="logo-nitr-improved-shadow.png" />
     <None Remove="logo-nitr-improved.png" />
+    <None Remove="nitr-mini-logo-grey.png" />
     <None Remove="nitr-mini-logo.png" />
+    <None Remove="red.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,9 +25,12 @@
 
   <ItemGroup>
     <Resource Include="app.ico" />
-    <Resource Include="image.png" />
+    <Resource Include="green.ico" />
+    <Resource Include="logo-nitr-improved-shadow.png" />
+    <Resource Include="nitr-mini-logo-grey.png" />
     <Resource Include="logo-nitr-improved.png" />
     <Resource Include="nitr-mini-logo.png" />
+    <Resource Include="red.ico" />
   </ItemGroup>
 
 </Project>
