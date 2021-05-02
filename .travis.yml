@@ -1,7 +1,7 @@
 os: windows
 language: csharp
 solution: NitrControlPanel.sln
-dotnet: 3.1.200
+mono: none
 
 install:
 - 
