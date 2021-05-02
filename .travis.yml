@@ -4,7 +4,7 @@ solution: NitrControlPanel.sln
 mono: none
 
 before_install:
-- choco install nuget.commandline --pre 
+- choco install nuget.commandline
 - choco install visualstudio2019buildtools
 - choco install dotnetcore
 install:
