@@ -3,6 +3,8 @@ language: csharp
 solution: NitrControlPanel.sln
 mono: none
 
+before_install:
+- choco install nuget.commandline --pre 
 install:
 - nuget restore NitrControlPanel.sln
 script:
