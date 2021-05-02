@@ -5,7 +5,7 @@ mono: none
 
 before_install:
 - choco install nuget.commandline --pre 
-- choco install dotnetcore-sdk --version 3.1.107
+- choco install dotnetcore-sdk --version 3.1.107 --pre
 install:
 - nuget restore NitrControlPanel.sln
 script:
