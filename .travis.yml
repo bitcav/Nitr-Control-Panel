@@ -1,0 +1,23 @@
+language: csharp
+solution: NitrControlPanel.sln
+dotnet: 3.1.200
+
+install:
+- 
+script:
+  - msbuild /t:Restore
+  - msbuild /p:Configuration=Release
+
+deploy:
+  edge: true
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  on:
+    repo: bitcav/Nitr-Control-Panel
+    branches:    
+      only:      
+      - master 
+  skip_cleanup: true
+
+  draft: true
+
