@@ -5,7 +5,8 @@ mono: none
 
 before_install:
 - choco install nuget.commandline --pre 
-- choco install dotnetcore-3.0-sdk --pre
+- choco install visualstudio2019buildtools
+- choco install dotnetcore
 install:
 - nuget restore NitrControlPanel.sln
 script:
