@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.ServiceProcess;
 
 namespace NitrControlPanel
 {
@@ -8,6 +11,8 @@ namespace NitrControlPanel
         private static readonly string rootPath = Directory.GetCurrentDirectory();
         private static readonly string ServiceBinPath = rootPath + @"\nitr.exe";
         private static readonly string mainProcess = "nitr";
+        private static readonly string serviceName = "NitrService";
+
 
         public static string Start()
         {
@@ -57,5 +62,80 @@ namespace NitrControlPanel
             }
 
         }
+
+        public static void Install()
+        {
+            try
+            {
+                Process cmd = new Process();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.WorkingDirectory = Path.GetDirectoryName(ServiceBinPath);
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.StartInfo.Arguments = $"/C sc create {serviceName} binPath={ServiceBinPath} DisplayName= \"NITR Service\" start=auto ";
+                cmd.Start();
+            } catch
+            {
+
+            }
+        }
+
+
+        public static void Uninstall()
+        {
+            try
+            {
+                Process cmd = new Process();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.StartInfo.Arguments = $"/C sc delete NitrService";
+                cmd.Start();
+            }
+            catch
+            {
+
+            }
+        }
+
+        public static bool Exists()
+        {
+            return ServiceController.GetServices().Any(serviceController => serviceController.ServiceName.Equals(serviceName));
+        }
+
+        public static string StartService()
+        {
+            ServiceController service = new ServiceController(serviceName);
+
+            if (service == null)
+            {
+                return "";
+            }
+
+            service.Start();
+            service.WaitForStatus(ServiceControllerStatus.Running);
+            var process = Process.GetProcessesByName(mainProcess);
+            if (process.Length > 0)
+            {
+                return process[0].Id.ToString();
+            }
+            else
+            {
+                return "- - - - -";
+            }
+        }
+
+        public static void StopService()
+        {
+            ServiceController service = new ServiceController(serviceName);
+            if (service == null)
+            {
+                return;
+            }
+
+            service.Stop();
+            service.WaitForStatus(ServiceControllerStatus.Stopped);
+        }
+
     }
 }

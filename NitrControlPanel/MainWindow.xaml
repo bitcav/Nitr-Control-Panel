@@ -188,6 +188,8 @@
                                     Content="Install as Service" 
                                     ToolTip="Installing as Windows Service requires elevated privileges"
                                     ToolTipService.ShowOnDisabled="True"
+                                    Checked="ServiceCheckBox_Checked"
+                                    Unchecked="ServiceCheckBox_Unchecked"
                                     >
                                     <CheckBox.Resources>
                                         <!--Unchecked state-->

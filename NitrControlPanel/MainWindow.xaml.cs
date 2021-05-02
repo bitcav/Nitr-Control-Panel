@@ -16,6 +16,7 @@ namespace NitrControlPanel
         public MainWindow()
         {
             InitializeComponent();
+
             try
             {
                 Inputs inputs = Config.Read();
@@ -27,11 +28,15 @@ namespace NitrControlPanel
                 SetInputs(inputs);
             }
 
-            if(Utils.IsAdmin())
+            if (Utils.IsAdmin())
                 ServiceCheckBox.IsEnabled = true;
             else
                 ServiceCheckBox.IsEnabled = false;
 
+            if (Service.Exists())
+            {
+                ServiceCheckBox.IsChecked = true;
+            }
 
             if (Service.IsRunning())
             {
@@ -48,6 +53,8 @@ namespace NitrControlPanel
                 TrayTextBlock.Text = "NITR Control Panel: Stopped";
             }
         }
+
+
 
         private void SetInputs(Inputs inputs)
         {
@@ -75,14 +82,17 @@ namespace NitrControlPanel
             {
                 ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
                 ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
-                Service.Stop();
+
+                if (Service.Exists()) 
+                    Service.StopService();
+                else
+                    Service.Stop();
+
                 EnableInputs();
                 await Task.Delay(1000);
                 ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
                 ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
                 StoppedUI();
-
-
             }
             else {
                 if (Port.Text == "")
@@ -92,7 +102,12 @@ namespace NitrControlPanel
                 {
                     ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
                     ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
-                    PID.Content = Service.Start();
+
+                    if (Service.Exists())
+                        PID.Content = Service.StartService();
+                    else
+                        PID.Content = Service.Start();
+
                     DisableInputs();
                     await Task.Delay(1000);
                     ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
@@ -189,7 +204,10 @@ namespace NitrControlPanel
             {
                 ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
                 ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
-                PID.Content = Service.Start();
+                if (Service.Exists())
+                    PID.Content = Service.StartService();
+                else
+                    PID.Content = Service.Start();
                 DisableInputs();
                 await Task.Delay(1000);
                 ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
@@ -212,7 +230,10 @@ namespace NitrControlPanel
         {
             ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
             ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
-            Service.Stop();
+            if (Service.Exists())
+                Service.StopService();
+            else
+                Service.Stop();
             EnableInputs();
             await Task.Delay(1000);
             ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
@@ -312,7 +333,24 @@ namespace NitrControlPanel
 
         private void ShowLogs(object sender, RoutedEventArgs e)
         {
-            Process.Start("notepad.exe", "nitr.log");
+            try
+            {
+                Process.Start("notepad.exe", "nitr.log");
+            } catch
+            {
+
+            }
+        }
+
+
+        private void ServiceCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Service.Install();
+        }
+
+        private void ServiceCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Service.Uninstall();
         }
     }
 }

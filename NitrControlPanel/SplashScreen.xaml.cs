@@ -46,7 +46,7 @@ namespace NitrControlPanel
                     {
                         Task.Run(function: async () => {
                             await Task.Run(() => {
-                                Thread.Sleep(2000);
+                                Thread.Sleep(1600);
                                 SplashScreenWindow.Dispatcher.Invoke(() => SplashScreenWindow.Hide(), DispatcherPriority.Background);
                             });
 
@@ -75,7 +75,7 @@ namespace NitrControlPanel
             {
                 Task.Run(function: async () => {
                     await Task.Run(() => {
-                        Thread.Sleep(2000);
+                        Thread.Sleep(1600);
                         SplashScreenWindow.Dispatcher.Invoke(() => SplashScreenWindow.Hide(), DispatcherPriority.Background);
                     });
 
