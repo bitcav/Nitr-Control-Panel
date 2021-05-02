@@ -4,7 +4,7 @@ solution: NitrControlPanel.sln
 mono: none
 
 install:
-- 
+- nuget restore NitrControlPanel.sln
 script:
   - msbuild /t:Restore
   - msbuild /p:Configuration=Release
