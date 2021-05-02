@@ -2,7 +2,8 @@ os: windows
 language: csharp
 solution: NitrControlPanel.sln
 mono: none
-dotnet: 3.1.102
+dotnet: 2.1.502
+
 
 before_install:
 - choco install nuget.commandline --pre 
