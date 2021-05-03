@@ -6,8 +6,8 @@ mono: none
 before_install:
 - powershell choco install nuget.commandline
 - powershell choco install visualstudio2019buildtools
-- powershell Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-- powershell ./dotnet-install.ps1 -Channel 3.1 -InstallDir C:\cli
+- powershell Invoke-WebRequest 'https://dot.net/v1/dotnet-install.ps1' -Proxy $env:HTTP_PROXY -ProxyUseDefaultCredentials -OutFile 'dotnet-install.ps1';
+- powershell ./dotnet-install.ps1 -InstallDir '~/.dotnet' -Version '3.0.0' -ProxyAddress $env:HTTP_PROXY -ProxyUseDefaultCredentials;
 - powershell refreshenv
 - powershell dotnet --list-sdks
 
