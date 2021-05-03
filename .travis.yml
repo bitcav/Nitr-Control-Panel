@@ -7,8 +7,9 @@ before_install:
 - choco install nuget.commandline
 - choco install visualstudio2019buildtools
 - choco install dotnetcore
+- refreshenv
+
 install:
-- ls $HOME/AppData/Local/Temp/chocolatey
 - nuget restore NitrControlPanel.sln
 script:
   - msbuild /t:Restore
