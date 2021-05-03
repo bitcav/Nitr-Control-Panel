@@ -4,9 +4,9 @@ solution: NitrControlPanel.sln
 mono: none
 
 before_install:
-- choco install nuget.commandline
-- choco install visualstudio2019buildtools
-- choco install dotnetcore
+- powershell choco install nuget.commandline
+- powershell choco install visualstudio2019buildtools
+- powershell choco install dotnetcore
 - powershell refreshenv
 - powershell dotnet --list-sdks
 
