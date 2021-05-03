@@ -9,6 +9,7 @@ before_install:
 - choco install dotnetcore
 install:
 - dotnet --list-sdks
+- dir C:\ProgramData\chocolatey\lib
 - nuget restore NitrControlPanel.sln
 script:
   - msbuild /t:Restore
