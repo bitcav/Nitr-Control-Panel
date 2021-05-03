@@ -7,7 +7,7 @@ before_install:
 - powershell choco install nuget.commandline
 - powershell choco install visualstudio2019buildtools
 - powershell Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-- powershell ./dotnet-install.ps1 -Channel 3.1
+- powershell ./dotnet-install.ps1 -Channel 3.1 -InstallDir C:\cli
 - powershell refreshenv
 - powershell dotnet --list-sdks
 
