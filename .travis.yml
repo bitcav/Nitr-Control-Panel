@@ -8,7 +8,8 @@ before_install:
 - choco install visualstudio2019buildtools
 - choco install dotnetcore
 install:
-- dotnet build NitrControlPanel.sln
+- dotnet --list-sdks
+- nuget restore NitrControlPanel.sln
 script:
   - msbuild /t:Restore
   - msbuild /p:Configuration=Release
