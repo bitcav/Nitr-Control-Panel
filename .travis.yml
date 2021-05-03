@@ -10,6 +10,7 @@ before_install:
 - powershell choco install dotnetcore
 - powershell refreshenv
 - powershell dir C:\ProgramData\chocolatey\lib
+- powershell ls $HOME/AppData/Local/Temp/chocolatey
 
 install:
 - nuget restore NitrControlPanel.sln
