@@ -6,9 +6,7 @@ mono: none
 before_install:
 - powershell choco install nuget.commandline
 - powershell choco install visualstudio2019buildtools
-- powershell choco install dotnetcore
 - powershell Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-- powershell Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force
 - powershell ./dotnet-install.ps1 -Channel 3.1
 - powershell refreshenv
 - powershell dotnet --list-sdks
