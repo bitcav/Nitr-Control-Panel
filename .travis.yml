@@ -7,7 +7,7 @@ before_install:
 - choco install nuget.commandline
 - choco install visualstudio2019buildtools
 - choco install dotnetcore
-- refreshenv
+- powershell refreshenv
 
 install:
 - nuget restore NitrControlPanel.sln
