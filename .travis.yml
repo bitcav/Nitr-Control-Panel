@@ -13,7 +13,9 @@ before_install:
 
 script:
 - bash deploy.sh
+- ls
 - ls Release
+- ls NitrControlPanel\Publish\
 
 deploy:
   edge: true
