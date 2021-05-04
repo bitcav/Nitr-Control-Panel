@@ -10,13 +10,14 @@ before_install:
 - powershell choco upgrade dotnetcore
 - powershell refreshenv
 - powershell dotnet --list-sdks
+- powershell dir
 - ls
 - dir
 
 
 install:
-  - dotnet msbuild /t:Restore
-  - dotnet msbuild /p:Configuration=Release
+  - powershell cd NitrControlPanel -and dotnet msbuild /t:Restore
+  - powershell cd NitrControlPanel -and dotnet msbuild /p:Configuration=Release
 
 deploy:
   edge: true
