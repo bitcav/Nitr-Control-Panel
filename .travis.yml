@@ -29,7 +29,7 @@ deploy:
       - master 
   skip_cleanup: true
   file:
-  - NitrControlPanel/bin/Release/NitrControlPanel.exe
+  - NitrControlPanel/Publish/NitrControlPanel.exe
 
   draft: true
 
