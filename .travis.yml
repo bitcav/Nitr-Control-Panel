@@ -16,8 +16,7 @@ before_install:
 
 
 install:
-  - powershell (cd NitrControlPanel) -and (dotnet msbuild /t:Restore)
-  - powershell (cd NitrControlPanel) -and (dotnet msbuild /p:Configuration=Release)
+- bash deploy.sh
 
 deploy:
   edge: true

@@ -1,0 +1,2 @@
+cd NitrControlPanel
+dotnet build
