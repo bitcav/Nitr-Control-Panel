@@ -11,6 +11,10 @@
 
 Windows GUI for https://github.com/bitcav/nitr
 
+## Download
+
+https://github.com/bitcav/Nitr-Control-Panel/releases/latest
+
 <p align="center">
     <img alt="Nitr Control Panel" src="https://raw.githubusercontent.com/bitcav/Nitr-Control-Panel/master/images/capture.PNG" style="max-width:100%;">
     <br>
