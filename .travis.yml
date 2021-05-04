@@ -13,10 +13,8 @@ before_install:
 
 
 install:
-- dotnet NitrControlPanel.csproj
-script:
-- dotnet build
-
+  - dotnet msbuild /t:Restore
+  - dotnet msbuild /p:Configuration=Release
 
 deploy:
   edge: true
