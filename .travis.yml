@@ -6,11 +6,9 @@ mono: none
 before_install:
 - powershell choco install nuget.commandline
 - powershell choco install visualstudio2019buildtools
-- powershell choco install dotnetcore-sdk
-- powershell choco install dotnetcore
+- powershell choco upgrade dotnetcore-sdk
+- powershell choco upgrade dotnetcore
 - powershell refreshenv
-- powershell dir C:\ProgramData\chocolatey\lib
-- powershell ls $HOME/AppData/Local/Temp/chocolatey
 
 install:
 - nuget restore NitrControlPanel.sln
