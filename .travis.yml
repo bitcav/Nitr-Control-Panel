@@ -15,6 +15,8 @@ script:
 - bash deploy.sh
 - ls
 - ls Release
+- ls NitrControlPanel
+- ls NitrControlPanel\bin
 - ls NitrControlPanel\Publish\
 
 deploy:
