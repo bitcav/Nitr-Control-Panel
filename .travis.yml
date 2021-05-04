@@ -14,9 +14,8 @@ before_install:
 script:
 - bash deploy.sh
 - ls NitrControlPanel
-- ls NitrControlPanel\bin
 - ls NitrControlPanel/bin
-- ls NitrControlPanel\Publish
+- ls NitrControlPanel/bin/Release
 - ls NitrControlPanel/Publish
 
 deploy:
