@@ -20,6 +20,8 @@ install:
 - ls NitrControlPanel/bin
 - dir NitrControlPanel
 - ls
+- cd ..
+- ls
 
 deploy:
   edge: true
@@ -31,6 +33,8 @@ deploy:
       only:      
       - master 
   skip_cleanup: true
+  file:
+  - NitrControlPanel.exe
 
   draft: true
 
