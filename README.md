@@ -1,9 +1,9 @@
 <div align="left">
 
-![.net](https://img.shields.io/badge/.NET-5C2D91?style=flat-square&logo=.net&logoColor=white) 
 ![windows](https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white) 
-[![Build Status](https://flat.badgen.net/travis/bitcav/Nitr-Control-Panel)](https://travis-ci.org/bitcav/Nitr-Control-Panel)
+![.net](https://img.shields.io/badge/.NET-5C2D91?style=flat-square&logo=.net&logoColor=white) 
 [![license](https://flat.badgen.net/github/license/bitcav/Nitr-Control-Panel)](https://github.com/bitcav/Nitr-Control-Panel/blob/master/LICENSE)
+[![Build Status](https://flat.badgen.net/travis/bitcav/Nitr-Control-Panel)](https://travis-ci.org/bitcav/Nitr-Control-Panel)
 
 </div>
 
