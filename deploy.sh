@@ -1,2 +1,2 @@
 cd NitrControlPanel
-dotnet build
+dotnet build --configuration Release
