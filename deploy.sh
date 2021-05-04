@@ -1,3 +1,4 @@
+mkdir Release
 cd NitrControlPanel
 dotnet build --configuration Release
-dotnet publish
+dotnet publish -c Release -o test
