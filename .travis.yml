@@ -17,6 +17,8 @@ before_install:
 
 install:
 - bash deploy.sh
+- ls NitrControlPanel
+- dir NitrControlPanel
 
 deploy:
   edge: true
