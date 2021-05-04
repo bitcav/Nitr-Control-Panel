@@ -13,10 +13,10 @@ before_install:
 
 
 install:
-- nuget restore NitrControlPanel.sln
+- dotnet NitrControlPanel.csproj
 script:
-  - msbuild /t:Restore
-  - msbuild /p:Configuration=Release
+- dotnet build
+
 
 deploy:
   edge: true
