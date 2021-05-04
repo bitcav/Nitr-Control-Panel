@@ -10,6 +10,8 @@ before_install:
 - powershell choco upgrade dotnetcore
 - powershell refreshenv
 - powershell dotnet --list-sdks
+- ls
+- dir
 
 
 install:
