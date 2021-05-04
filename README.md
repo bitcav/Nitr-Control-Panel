@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
 
 ![.net](https://img.shields.io/badge/.NET-5C2D91?style=flat-square&logo=.net&logoColor=white) 
 ![windows](https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white) 
@@ -21,7 +21,7 @@ Windows 10 x64 support only (for now).
 
 
 
-<p align="center">
+<p align="left">
     <img alt="Nitr Control Panel" src="https://raw.githubusercontent.com/bitcav/Nitr-Control-Panel/master/images/capture.PNG" style="max-width:100%;">
     <br>
 </p>
