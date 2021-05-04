@@ -9,6 +9,8 @@ before_install:
 - powershell choco upgrade dotnetcore-sdk
 - powershell choco upgrade dotnetcore
 - powershell refreshenv
+- powershell dotnet --list-sdks
+
 
 install:
 - nuget restore NitrControlPanel.sln
