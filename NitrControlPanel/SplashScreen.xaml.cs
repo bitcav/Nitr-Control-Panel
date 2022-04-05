@@ -29,10 +29,9 @@ namespace NitrControlPanel
 
             if (Utils.InternetOK())
             {
-
+                
             string latestVersion = Utils.GetLastVersionNumber();
             string downloadUrl = "https://github.com/bitcav/nitr/releases/download/" + latestVersion + "/nitr_windows_amd64.exe";
-
             var rootDir = Directory.GetCurrentDirectory();
             var nitrBin = rootDir + "/nitr.exe";
 

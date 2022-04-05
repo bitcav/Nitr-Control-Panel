@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,6 +77,7 @@ namespace NitrControlPanel
         {
             var bc = new BrushConverter();
             PackIcon packIcon = new PackIcon();
+            string servicePIDString = ""; 
 
 
             if (Service.IsRunning())
@@ -88,10 +90,10 @@ namespace NitrControlPanel
                 else
                     Service.Stop();
 
-                EnableInputs();
                 await Task.Delay(1000);
                 ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
                 ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                EnableInputs();
                 StoppedUI();
             }
             else {
@@ -99,21 +101,36 @@ namespace NitrControlPanel
                     Port.Text = "8000";
 
                 if (!Utils.IsPortOpen(int.Parse(Port.Text)))
-                {
-                    ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
-                    ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+                {     
 
                     if (Service.Exists())
+                    {
                         PID.Content = Service.StartService();
+                    }
+                        
                     else
-                        PID.Content = Service.Start();
+                    {
+                        servicePIDString = Service.Start();
+                        PID.Content = servicePIDString;
+                        if (servicePIDString == "")
+                        {
+                            ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
+                            ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                        }
+                        else
+                        {
+                            ButtonProgressAssist.SetIsIndeterminate(StartBtn, true);
+                            ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, true);
+                            DisableInputs();
+                            await Task.Delay(1000);
 
-                    DisableInputs();
-                    await Task.Delay(1000);
-                    ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
-                    ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
-                    RunningUI();
-                    StartNotification();
+                            ButtonProgressAssist.SetIsIndeterminate(StartBtn, false);
+                            ButtonProgressAssist.SetIsIndicatorVisible(StartBtn, false);
+                            RunningUI();
+                            StartNotification();
+                        }
+                    }
+               
                 }
                 else
                 {
@@ -336,16 +353,27 @@ namespace NitrControlPanel
             try
             {
                 Process.Start("notepad.exe", "nitr.log");
-            } catch
+            } catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
         }
 
 
         private void ServiceCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Service.Install();
+            string rootPath = Directory.GetCurrentDirectory();
+            string ServiceBinPath = rootPath + @"\nitr.exe";
+            
+            if (File.Exists(ServiceBinPath)) {
+                Service.Install();
+            } 
+            else
+            {
+                ServiceCheckBox.IsChecked = false;
+                MessageBox.Show("File nitr.exe does not exist.");
+            }
+            
         }
 
         private void ServiceCheckBox_Unchecked(object sender, RoutedEventArgs e)
