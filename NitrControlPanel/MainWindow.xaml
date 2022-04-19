@@ -22,7 +22,7 @@
         Background="#1e1e1e"
         Margin="5,5,5,5">
         <Grid>
-            
+
             <Grid Grid.Row="0" Background="#222222">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.7*"/>
@@ -37,16 +37,21 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Close Button -->
+                    <!-- Close Button  -->
                     <Button 
+                        x:Name="CloseBtn"
                         Click="HideControlPanel"
                         Width="45" 
                         HorizontalAlignment="Left" 
                         Height="28" 
                         Foreground="White" 
-                            materialDesign:ButtonAssist.CornerRadius="0 0 0 0"
-                          Style="{StaticResource MaterialDesignFlatButton}" VerticalAlignment="Center" Margin="205,0,0,0"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        materialDesign:ButtonAssist.CornerRadius="0 0 0 0"
+                        VerticalAlignment="Center" 
+                        Margin="205,0,0,0" 
+                        Cursor="Hand"
                         >
+                        
                         <materialDesign:PackIcon
                             Opacity="0.5"
                             Foreground="Gray"
@@ -91,7 +96,7 @@
                         <!-- Start Button -->
                         <Button
                             x:Name="StartBtn"
-                            HorizontalAlignment="Right"
+                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             ToolTip="Start/Stop Service"
                             BorderBrush="#2ECC71"
@@ -101,8 +106,8 @@
                             materialDesign:ButtonProgressAssist.Value="-1"
                             materialDesign:ButtonProgressAssist.IsIndeterminate="False"
                             Click="StartBtn_Click" 
-                            Panel.ZIndex="5" 
-                            Margin="0,0,18,0"
+                            Margin="196,0,0,0"
+                            Panel.ZIndex="0" Height="37" Width="37"
                         >
                             <materialDesign:PackIcon
                                 x:Name="StartBtnIcon"
@@ -266,9 +271,9 @@
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>
-                
+
             </materialDesign:ColorZone>
-            
+
             <!--  Taskbar Options -->
             <tb:TaskbarIcon x:Name="myNotifyIcon"
                     Visibility="Visible"
@@ -298,7 +303,7 @@
                       Opacity="0.8"
                       Width="170"
                       Height="30">
-                       <TextBlock
+                        <TextBlock
                         x:Name="TrayTextBlock"
                         Text="NITR Control Panel"
                         HorizontalAlignment="Center"
@@ -322,6 +327,6 @@
         </Grid>
     </materialDesign:Card>
 
-    
+
 
 </Window>

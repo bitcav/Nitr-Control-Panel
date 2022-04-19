@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ProjectGuidesConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ProjectGuidesConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ProjectItemGuides>
     <ProjectItemGuide TargetFile="MainWindow.xaml">
       <GuideModels>
@@ -18,10 +18,12 @@
             <Guide Alignment="Left" Position="131" />
             <Guide Alignment="Left" Position="279" />
             <Guide Alignment="Top" Position="48" />
-            <Guide Alignment="Top" Position="25" />
+            <Guide Alignment="Top" Position="75" />
             <Guide Alignment="Top" Position="60" />
             <Guide Alignment="Left" Position="246" />
             <Guide Alignment="Top" Position="200" />
+            <Guide Alignment="Top" Position="51" />
+            <Guide Alignment="Top" Position="87" />
           </Guides>
         </GuideModel>
       </GuideModels>

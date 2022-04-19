@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
-using System.Windows;
 
 namespace NitrControlPanel
 {
@@ -27,16 +26,8 @@ namespace NitrControlPanel
                 cmd.Start();
                 return cmd.Id.ToString();
             }
-            catch 
+            catch
             {
-                string errorMsg = "File nitr.exe does not exist.";
-                MessageBox.Show(errorMsg);
-                using (StreamWriter sw = File.AppendText(@"nitr.log"))
-                {
-                    string errorLog = DateTime.Now + " " + errorMsg;
-                    sw.WriteLine(errorLog);
-                }
-
                 return "";
             }
 
@@ -76,17 +67,16 @@ namespace NitrControlPanel
         {
             try
             {
-                    Process cmd = new Process();
-                    cmd.StartInfo.FileName = "cmd.exe";
-                    cmd.StartInfo.WorkingDirectory = Path.GetDirectoryName(ServiceBinPath);
-                    cmd.StartInfo.CreateNoWindow = true;
-                    cmd.StartInfo.UseShellExecute = false;
-                    cmd.StartInfo.Arguments = $"/C sc create {serviceName} binPath={ServiceBinPath} DisplayName= \"NITR Service\" start=auto ";
-                    cmd.Start();
-            
-            } catch(Exception e)
+                Process cmd = new Process();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.WorkingDirectory = Path.GetDirectoryName(ServiceBinPath);
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.StartInfo.Arguments = $"/C sc create {serviceName} binPath={ServiceBinPath} DisplayName= \"NITR Service\" start=auto ";
+                cmd.Start();
+            } catch
             {
-                MessageBox.Show(e.Message);
+
             }
         }
 
@@ -102,9 +92,9 @@ namespace NitrControlPanel
                 cmd.StartInfo.Arguments = $"/C sc delete NitrService";
                 cmd.Start();
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show(e.Message);
+
             }
         }
 

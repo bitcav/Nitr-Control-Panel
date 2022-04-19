@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,7 +57,7 @@ namespace NitrControlPanel
             try
             {
                 Ping myPing = new Ping();
-                String host = "google.com";
+                String host = "github.com";
                 byte[] buffer = new byte[32];
                 int timeout = 1000;
                 PingOptions pingOptions = new PingOptions();
@@ -190,7 +191,6 @@ namespace NitrControlPanel
             catch (Exception ex)
             {
                 // Catch any errors
-                MessageBox.Show(ex.Message);
             }
             finally
             {
